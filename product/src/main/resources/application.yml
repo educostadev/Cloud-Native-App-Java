@@ -1,5 +1,9 @@
 server:
   port: 8081
+
 management:
   security:
     enabled: false
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
