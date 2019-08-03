@@ -1,4 +1,4 @@
-package com.mycompany.petstore.product;
+package com.mycompany.product;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

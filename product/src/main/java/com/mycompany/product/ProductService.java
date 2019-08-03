@@ -1,4 +1,4 @@
-package com.mycompany.petstore.product;
+package com.mycompany.product;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The microservice responsible for implementing the services and APIs
+ */
 @RestController
 public class ProductService {
 

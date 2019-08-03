@@ -1,4 +1,4 @@
-package com.mycompany.petstore.product;
+package com.mycompany.product;
 
 public class Product {
 
