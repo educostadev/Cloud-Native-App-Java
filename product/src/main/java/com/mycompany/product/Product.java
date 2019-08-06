@@ -1,16 +1,29 @@
 package com.mycompany.product;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Product {
 
-	private int id = 1;
-	private String name = "Oranges2";
-	private int catId = 2;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+
+	@Column(nullable = false)
+	private String name;
+
+	@Column(nullable = false)
+	private int catId;
 
 	public Product() {
 	}
 
 	public Product(int id) {
-		this.id  = id;
+		this.id = id;
 	}
 
 	public int getId() {

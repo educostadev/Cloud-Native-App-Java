@@ -45,6 +45,19 @@
             <version>1.4.7.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <!-- Spring Data provides excellent abstractions to use the Java Persistence API (JPA) and makes coding data access objects (DAO) much easier. -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <!-- Lightweight database -->
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.5.0</version>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

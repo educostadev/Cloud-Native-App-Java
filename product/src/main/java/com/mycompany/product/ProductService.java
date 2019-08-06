@@ -3,6 +3,7 @@ package com.mycompany.product;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductService {
 
+	@Autowired
+	ProductRepository prodRepo;
+
 	@RequestMapping("/${env}product/{id}")
 	Product getProduct(@PathVariable("id") int id) {
-		return new Product(id);
+		return this.prodRepo.findOne(id);
 	}
 
-	@RequestMapping("/${env}productIds")
-	List<Integer> getProductIds(@RequestParam("id") int id) {
-		return Arrays.asList(id + 1, id + 2, id + 3);
+	@RequestMapping("/${env}products")
+	List<Product> getProductsForCategory(@RequestParam("id") int id) {
+		return this.prodRepo.findByCatId(id);
 	}
 }
