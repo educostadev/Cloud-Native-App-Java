@@ -2,6 +2,7 @@ package com.mycompany.product;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ProductRepository extends CrudRepository<Product, Integer> {
@@ -13,6 +14,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	 * @param catId
 	 * @return
 	 */
+	@Cacheable("productsByCategoryCache")
 	List<Product> findByCatId(int catId);
 
 }
