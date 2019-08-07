@@ -1,0 +1,22 @@
+server:
+  port: 8085
+
+management:
+  security:
+    enabled: false
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+
+logging:
+  level:
+    ROOT: INFO
+
+spring:
+  data:
+    mongodb:
+      database: masterdb
+      username: mongoadmin
+      password: mongopwd
+      authentication-database: admin
