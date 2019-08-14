@@ -8,10 +8,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableCaching
-public class ProductSpringApp {
+public class ProductSpringHsqlApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductSpringApp.class, args);
+		SpringApplication.run(ProductSpringHsqlApp.class, args);
 	}
 
 }
