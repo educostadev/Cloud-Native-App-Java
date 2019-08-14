@@ -24,6 +24,9 @@ public class ProductService {
 	@Autowired
 	ProductRepository prodRepo;
 
+	@Autowired
+	ProductMsgProducer producer;
+
 	@RequestMapping("/product/{id}")
 	Product getProduct(@PathVariable("id") String id) {
 		return this.prodRepo.findOne(id);
@@ -45,6 +48,7 @@ public class ProductService {
 		}
 
 		prodRepo.delete(exitingProduct);
+		producer.sendUpdate(exitingProduct, "DELETE");
 		return exitingProduct;
 	}
 
@@ -55,12 +59,14 @@ public class ProductService {
 		existing.setName(product.getName());
 
 		Product saved = prodRepo.save(existing);
+		producer.sendUpdate(saved, "UPDATED");
 		return new ResponseEntity<>(saved, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/product", method = RequestMethod.POST)
 	ResponseEntity<Product> insertProduct(@RequestBody Product product) {
 		Product saved = prodRepo.save(product);
+		producer.sendUpdate(product, "CREATED");
 		return new ResponseEntity<>(saved, HttpStatus.OK);
 	}
 
