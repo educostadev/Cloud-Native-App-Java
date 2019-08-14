@@ -29,6 +29,11 @@ public class ProductService {
 		return this.prodRepo.findOne(id);
 	}
 
+	@RequestMapping("/products")
+	List<Product> getProductsForCategory(@RequestParam("id") int id) {
+		return this.prodRepo.findByCatId(id);
+	}
+
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
 	Product deleteProduct(@PathVariable("id") int id) {
 
@@ -57,11 +62,6 @@ public class ProductService {
 	ResponseEntity<Product> insertProduct(@RequestBody Product product) {
 		Product saved = prodRepo.save(product);
 		return new ResponseEntity<>(saved, HttpStatus.OK);
-	}
-
-	@RequestMapping("/products")
-	List<Product> getProductsForCategory(@RequestParam("id") int id) {
-		return this.prodRepo.findByCatId(id);
 	}
 
 
