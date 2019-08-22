@@ -29,7 +29,13 @@ public class ProductService {
 
 	@RequestMapping("/product/{id}")
 	Product getProduct(@PathVariable("id") String id) {
-		return this.prodRepo.findOne(id);
+		Product product = this.prodRepo.findOne(id);
+		if (product == null){
+			throw new BadRequestException(
+					BadRequestException.ID_NOT_FOUND,
+					MessageFormat.format("No product for id {0}", id));
+		}
+		return product;
 	}
 
 	@RequestMapping("/products")
