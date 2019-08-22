@@ -8,9 +8,16 @@ management:
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka/
 
 logging:
   level:
     ROOT: INFO
     org.hibernate.tool.hbm2ddl: DEBUG
     org.hibernate.SQL: DEBUG
+
+spring:
+  profiles: docker
