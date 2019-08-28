@@ -11,7 +11,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://eureka:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:eureka}:8761/eureka/
 
 logging:
   level:
@@ -29,7 +29,7 @@ spring:
 spring:
   profiles: postgres
   datasource:
-    url: jdbc:postgresql://datastore:5432/product
+    url: jdbc:postgresql://${POSTGRES_HOST:datastore}:5432/product
     username: dbuser
     password: dbpass
     driver-class-name: org.postgresql.Driver
