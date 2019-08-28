@@ -19,5 +19,24 @@ logging:
     org.hibernate.tool.hbm2ddl: DEBUG
     org.hibernate.SQL: DEBUG
 
+---
+
 spring:
   profiles: docker
+
+---
+
+spring:
+  profiles: postgres
+  datasource:
+    url: jdbc:postgresql://datastore:5432/product
+    username: dbuser
+    password: dbpass
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 20000
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none

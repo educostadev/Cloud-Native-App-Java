@@ -109,7 +109,7 @@ docker logs -f elasticsearch
 
 ```
 - Check the content. Do a GET  to: http://localhost:9200/product/_search?q=*&pretty
- 
+
 
 # Criando projeto product search
 
@@ -135,10 +135,35 @@ docker logs -f elasticsearch
 ```
 - For deleting DELETE to http://localhost:8083/product/3
 - 
+# Eureka
 
+```
+mvn clean package
+docker build -t cloudnativejava/eureka-server .
+docker run -d -p 8761:8761 --network app_nw --name eureka cloudnativejava/eureka-server
+```
+#Product with HSQL
 
+```
+mvn clean package -Dmaven.test.skip=true
+docker build -t cloudnativejava/product-api .
+docker run --rm -d -p 8011:8082 --network app_nw cloudnativejava/product-api
+```
 
+# Postgres Database
 
+- [Docker Hub](https://docs.docker.com/samples/library/postgres/)
+- For user and password see the file Dockerfile.postgres
+```
+build -t cloudnativejava/datastore -f Dockerfile.postgres .
+docker run -d -p 5432:5432 --network app_nw  --name datastore   cloudnativejava/datastore
+```
+
+# Product with Postgres
+
+```
+docker run --rm --name product-postgres1 -d -p 8013:8080  --network app_nw  cloudnativejava/product-api --spring.profiles.active=postgres
+```
 
 
 
