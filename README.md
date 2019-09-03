@@ -4,10 +4,11 @@
 # Create the registry service project
 
 - http://localhost:8761/
+-
 
 # Create the product client project
 
-
+- See https://www.baeldung.com/spring-cloud-netflix-eureka
 
 # Installation of the Mongo DB via docker
 
@@ -17,12 +18,17 @@ docker pull mongo
 ```
 
 ## Start the mongo DB
-
+- [Docker hub for mong](https://hub.docker.com/_/mongo)
+- [Docker hub for mongo-express](https://hub.docker.com/_/mongo-express)
 - Create the stack.yml with the content on mongo db page at docker hub.
 - Edit the file and expose the port 27017
-- Run
+- Run 
+	- up: build and recreate the container
+	- down: stop and destroy the container
+	- start: start exiting container
+	- stop: stop exiting container
 ```
-docker-compose -f stack.yml up
+docker-compose -f stack.yml start
 ```
 - To stop
 ```
@@ -44,12 +50,6 @@ Auth. Mechanism: SCRAM-SHA-1
 ```
 docker run -it --rm --network mongo_default mongo mongo --host mongo -u mongoadmin -p mongopwd --authenticationDatabase admin product-db
 ```
-
-## Links
-
-- [Docker hub for mong](https://hub.docker.com/_/mongo)
-- [Docker hub for mongo-express](https://hub.docker.com/_/mongo-express)
-- Comand line to connect: 
 
 ## Populating  Mongo DB
 
@@ -74,12 +74,11 @@ docker run -it --rm --network mongo_default mongo mongo --host mongo -u mongoadm
 - Change the Product Entity 
 
 # Installation of Elasticsearch
-Spring data does not support the lastested version for the Elasticsearch so you need to install the verion 2.4.3 [See Compatilby Matrix](https://github.com/spring-projects/spring-data-elasticsearch/wiki/Spring-Data-Elasticsearch---Spring-Boot---version-matrix) 
+Spring data does not support the lastested version for th Elasticsearch. 
 
 - [Elastic Search On Docker Hub](https://hub.docker.com/_/elasticsearch)
-```
+- Install Elastic Search 2.4.3
 docker pull elasticsearch:2.4.3
-```
 
 ## Iniciar Elasticsearch
 
@@ -93,7 +92,7 @@ docker run -d --name elasticsearch --net mongo_default -p 9200:9200 -p 9300:9300
 docker logs -f elasticsearch
 ```
 ## Populating Elasticsearch
-- Do a POST with content bellow to the url  http://localhost:9200/product/external/_bulk 
+- Create a file with products to import on elastic search. ps the last blank line is necessary
 ```
 {"index":{"_id":"1"}} 
 {"id":"1","name":"Apples","catId":1} 
@@ -108,16 +107,17 @@ docker logs -f elasticsearch
 {"id":"4","name":"Carrot","catId":2}
 
 ```
-- Check the content. Do a GET  to: http://localhost:9200/product/_search?q=*&pretty
-
+- Do a Post with the file content to: http://localhost:9200/product/external/_bulk 
+- Check the content. Do a post to: http://localhost:9200/product/_search?q=*&pretty
+- 
 
 # Criando projeto product search
 
-- copiado o projeto que conecta com o mongodb `product-mongo`
-- Removido do pom dependencia com mongodb e adicionado eleasticsearch 
+- Use spring-data-elasticsearch 3.1.X due compatibility with Elastic Search 6.2.2 [See Compatilby Matrix](https://github.com/spring-projects/spring-data-elasticsearch#quick-start) 
+- Copy mongo project and change POM.xml to use elasticsearch dependencies
+- Change on services
 
-# Adicionando, insert, update, delete
-
+## Create insert, update delete
 
 - For Inserting POST to http://localhost:8083/product
 ```
@@ -134,30 +134,43 @@ docker logs -f elasticsearch
 }
 ```
 - For deleting DELETE to http://localhost:8083/product/3
-- 
-# Eureka
 
+## Create error messages 
+
+# Installation of ActivityMQ
+
+- Fazer um tutorial como este: https://dzone.com/articles/event-driven-microservices-with-spring-boot-and-ac
+
+- We will use ActiveMQ as a reliable messaging mechanism
+- [Docker hub for ActiveMP](https://hub.docker.com/r/rmohr/activemq). 
 ```
-mvn clean package
-docker build -t cloudnativejava/eureka-server .
-docker run -d -p 8761:8761 --network app_nw --name eureka cloudnativejava/eureka-server
+docker pull rmohr/activemq:5.15.9
 ```
-#Product
+- Run the container
 ```
-mvn clean package -Dmaven.test.skip=true
-docker build -t cloudnativejava/product-api .
+docker run -d --name activemq -p 61616:61616 -p 8161:8161 rmohr/activemq:5.15.9
 ```
-## Run using HSQL
-```
-mvn clean package -Dmaven.test.skip=true
-docker build -t cloudnativejava/product-api .
-docker run --rm -d -p 8011:8082 --network app_nw cloudnativejava/product-api
-```
-## Run using Postgres
-```
-docker run --rm -d -p 8011:8082 --network app_nw cloudnativejava/product-api --spring.profiles.active=postgres
-```
-# Postgres Database
+- [Acess the admin page](http://localhost:8161/admin/) The user and password for url access is admin/admin
+- Create a topic for receive product updates
+
+# Implement CQRS
+
+- Project mongo db will be the golder source of the data
+- Update the mongo DB project with insert, update, delete methots and expection handler from HSQLDB project
+
+## Use Spring JMS to publish event on ActiviveMQ
+
+## Update Product Search to read the event and update the elasticsearch
+
+# BDD with Cumcumber on Spring boot application
+
+- Tutorial intellij https://www.hindsightsoftware.com/blog/cucumber-jvm-intellij
+- https://cucumber.io/docs/guides/10-minute-tutorial/
+
+## Integrating JoCoCo report
+
+
+# Instalation of Posgress Database
 - [Docker Hub](https://docs.docker.com/samples/library/postgres/)
 - For user and password see the file Dockerfile.postgres
 ```
@@ -165,10 +178,47 @@ docker build -t cloudnativejava/datastore -f Dockerfile.postgres .
 docker run -d -p 5432:5432 --network app_nw  --name datastore   cloudnativejava/datastore
 ```
 
+# Deployment 
+
+## Containerization
+
+- Create network 
+```
+docker network create app_nw
+```
+
+### Build and Run Eureka server
+```
+mvn clean package
+docker build -t cloudnativejava/eureka-server .
+docker run -d -p 8761:8761 --network app_nw --name eureka cloudnativejava/eureka-server
+```
+
+### Build and Run Project product
+```
+mvn clean package -Dmaven.test.skip=true
+docker build -t cloudnativejava/product-api .
+```
+
+- Run using HSQL
+```
+mvn clean package -Dmaven.test.skip=true
+docker build -t cloudnativejava/product-api .
+docker run --rm -d -p 8011:8082 --network app_nw cloudnativejava/product-api
+```
+- Run using Postgres
+```
+docker run --rm -d -p 8011:8082 --network app_nw cloudnativejava/product-api --spring.profiles.active=postgres
+```
 
 
+# Create CI/CD Pipeline on Jenkins
+
+- [Install](https://hub.docker.com/r/jenkins/jenkins)  and [Run](https://github.com/jenkinsci/docker/blob/master/README.md) Jenkins using docker
+```
+docker pull jenkins/jenkins:2.193
 
 
-
+```
 
 
