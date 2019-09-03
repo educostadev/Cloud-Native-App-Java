@@ -217,8 +217,16 @@ docker run --rm -d -p 8011:8082 --network app_nw cloudnativejava/product-api --s
 - [Install](https://hub.docker.com/r/jenkins/jenkins)  and [Run](https://github.com/jenkinsci/docker/blob/master/README.md) Jenkins using docker
 ```
 docker pull jenkins/jenkins:2.193
-
-
+docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/jenkins_home:/var/jenkins_home --name jenkins jenkins/jenkins:2.193
 ```
+- Jenkins will start in the Browser language. 
+- Acess localhost:8080 copy the admin password from `/jenkins_home/secrets/initialAdminPassword`
+- 
+- Senha esoclhida: adminuser/adminpwd
+- Waning: In the first login right after start page blank shown. I restarted the jenkins.
 
+## Configuring pipelie
+
+- Created `Jenkinsfile'
+- 
 

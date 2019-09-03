@@ -27,3 +27,4 @@ target
 *~
 *.iml
 .mvn
+jenkins_home
