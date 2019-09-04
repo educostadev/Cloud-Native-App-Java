@@ -1,3 +1,13 @@
+# Creating your Development environment
+## Installing and Configuring Git on Windows
+## Installing and Configuring Docker on Windows
+
+
+# Tutorial: Creating a git repository
+
+# Tutorial: Using Maven in Docker to build your Java Application
+- https://codefresh.io/docker-tutorial/java_docker_pipeline/
+
 
 # Create the product project
 
@@ -227,6 +237,24 @@ docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/j
 
 ## Configuring pipelie
 
-- Created `Jenkinsfile'
+- Created `Jenkinsfile` on repository filder
+- Add Maven configuration M3: Jenkins -> Manage Jenkins -> Global Tool Configurations
+- Create a `New Item` and `Pipeline` 
+- Point to your yout GIT repo and Jenkinsfile
+- `Build now` 
+
+## Advanced topic: Create a Continuous Integration pipeline for your Cloud Native Java Application with Jenkins and Docker
+
+- https://jenkins.io/doc/book/pipeline/docker/
+- https://code-maze.com/ci-jenkins-docker/
+
+# Implementing the runtime architecture to put the application on Production
+- Service Registry: We used Eureka as service registry, but if you use Kubernetes it address the service regitry for you.
+
+## Configuration Server
+- We will use Spring config server integrated with Git to server properties over HTTP. Consul and Zookeeper as alternative tools for this porpouse. 
+
+### Spring Cloud Config server 
+- Go to [String Initilizer] (https://start.spring.io/) and add `Config Server` as dependency. Artifact ID _config-server_ 
 - 
 
