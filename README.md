@@ -256,5 +256,7 @@ docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/j
 
 ### Spring Cloud Config server 
 - Go to [String Initilizer] (https://start.spring.io/) and add `Config Server` as dependency. Artifact ID _config-server_ 
+- Created new folder `Cloud-Native-App-Java-Config` and perfomed `git init`
+- https://spring.io/guides/gs/centralized-configuration/
 - 
 
