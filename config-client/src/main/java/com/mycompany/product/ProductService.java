@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +25,13 @@ public class ProductService {
 	@Autowired
 	ProductRepository prodRepo;
 
+	@Value("${testMessage:Hello Default}")
+	private String message;
+
 	@RequestMapping("/product/{id}")
 	Product getProduct(@PathVariable("id") int id) {
 		Product product = this.prodRepo.findOne(id);
-		if (product == null){
+		if (product == null) {
 			throw new BadRequestException(
 					BadRequestException.ID_NOT_FOUND,
 					MessageFormat.format("No product for id {0}", id));
@@ -70,5 +74,9 @@ public class ProductService {
 		return new ResponseEntity<>(saved, HttpStatus.OK);
 	}
 
+	@RequestMapping("/testMessage")
+	String getTestMessage() {
+		return message;
+	}
 
 }
