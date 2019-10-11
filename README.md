@@ -259,4 +259,7 @@ docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/j
 - Created new folder `Cloud-Native-App-Java-Config` and perfomed `git init`
 - https://spring.io/guides/gs/centralized-configuration/
 - 
-
+### Spring Cloud Config Client
+- Duplicated the product project to config-client. 
+- Added capability to refresh properties on the fly POST on `/refresh`
+- 
