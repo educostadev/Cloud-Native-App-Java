@@ -149,9 +149,8 @@ docker logs -f elasticsearch
 
 # Installation of ActivityMQ
 
-- Fazer um tutorial como este: https://dzone.com/articles/event-driven-microservices-with-spring-boot-and-ac
-
 - We will use ActiveMQ as a reliable messaging mechanism
+
 - [Docker hub for ActiveMP](https://hub.docker.com/r/rmohr/activemq). 
 ```
 docker pull rmohr/activemq:5.15.9
@@ -165,7 +164,7 @@ docker run -d --name activemq -p 61616:61616 -p 8161:8161 rmohr/activemq:5.15.9
 
 # Implement CQRS
 
-- Project mongo db will be the golder source of the data
+- Project mongo db will be the golden source of the data
 - Update the mongo DB project with insert, update, delete methots and expection handler from HSQLDB project
 
 ## Use Spring JMS to publish event on ActiviveMQ
@@ -183,6 +182,7 @@ docker run -d --name activemq -p 61616:61616 -p 8161:8161 rmohr/activemq:5.15.9
 # Instalation of Posgress Database
 - [Docker Hub](https://docs.docker.com/samples/library/postgres/)
 - For user and password see the file Dockerfile.postgres
+- Para testar se subiu só tentando fazer uma conexão no banco
 ```
 docker build -t cloudnativejava/datastore -f Dockerfile.postgres .
 docker run -d -p 5432:5432 --network app_nw  --name datastore   cloudnativejava/datastore
@@ -243,15 +243,12 @@ docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/j
 - Point to your yout GIT repo and Jenkinsfile
 - `Build now` 
 
-## Advanced topic: Create a Continuous Integration pipeline for your Cloud Native Java Application with Jenkins and Docker
-
-- https://jenkins.io/doc/book/pipeline/docker/
-- https://code-maze.com/ci-jenkins-docker/
+- 
 
 # Implementing the runtime architecture to put the application on Production
 - Service Registry: We used Eureka as service registry, but if you use Kubernetes it address the service regitry for you.
 
-## Configuration Server
+## Implementing the Configuration Server
 - We will use Spring config server integrated with Git to server properties over HTTP. Consul and Zookeeper as alternative tools for this porpouse. 
 
 ### Spring Cloud Config server 
@@ -263,3 +260,8 @@ docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/j
 - Duplicated the product project to config-client. 
 - Added capability to refresh properties on the fly POST on `/refresh`
 - 
+
+## Netflix Zuul as Edge Gateway to handle all requests
+
+- Zuul funciona como um API Gateway, nele vc define rotas e os "clientes" tem um unico endpoit para fazer request. Quando o service do Zuul recebe o request ele direciona para o service correspondente
+
