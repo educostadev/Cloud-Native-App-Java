@@ -265,3 +265,12 @@ docker run -d -p 8080:8080 -p 50000:50000 -v c:/Projetos/Cloud-Native-App-Java/j
 
 - Zuul funciona como um API Gateway, nele vc define rotas e os "clientes" tem um unico endpoit para fazer request. Quando o service do Zuul recebe o request ele direciona para o service correspondente
 
+## Installing Minikube
+
+- Download and install minikube. Download kubectl.exe and add on the same folder of minikube.
+- Put minikube on path
+- Start: `minikube start --vm-driver=hyperv`
+- Check: kubectl get env"
+- Run: minikube docker-env
+- Run: @FOR /f "tokens=*" %i IN ('minikube docker-env') DO @%i
+- 
